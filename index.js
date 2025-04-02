@@ -3,6 +3,8 @@ const serverless = require("serverless-http");
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.status(200).json({
         message: "Welcome! To see a product's info, use the route /products/:id"
@@ -10,22 +12,36 @@ app.get('/', (req, res) => {
 });
 
 
-const products = {
-    "1": {
+let products = [
+    {
         id: 1, 
         name: "water",
         price: 4000
     },
-    "2": {
+    {
         id: 2,
         name: "pepsi",
         price: 4500
     }
-};
+];
+
+app.post('/products', (req, res) => {
+    const {id, name, price} = req.body;
+    if (products.some(product => product.id === id)) {
+        return res.status(400).json({ error: "A product with the same id already exists!"});
+    }
+    if (!id || !name || !price) {
+        return res.status(400).json({ error: "Missing data. A product needs id, name, and price"})
+    }
+    const newProduct = {id, name, price};
+    products.push(newProduct);
+    res.status(201).json(newProduct);
+})
 
 app.get("/products/:id", (req, res) => {
     try {
-        const product = products[req.params.id];
+        const productId = parseInt(req.params.id);
+        const product = products.find(p => p.id===productId);
         if (product) {
             res.status(200).json(product);
         } else {
@@ -50,5 +66,5 @@ module.exports = app;
 module.exports.handler = serverless(app);
 
 app.listen(PORT, () => {
-    console.log("Server Listening on PORT:", port);
+    console.log("Server Listening on PORT:", PORT);
 });
