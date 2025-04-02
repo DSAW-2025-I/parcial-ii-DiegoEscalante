@@ -22,7 +22,13 @@ let products = [
         id: 2,
         name: "pepsi",
         price: 4500
+    },
+    {
+        id: 3,
+        name: "laptop",
+        price: 4000000
     }
+
 ];
 
 app.post('/products', (req, res) => {
