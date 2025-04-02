@@ -33,6 +33,9 @@ app.post('/products', (req, res) => {
     if (!id || !name || !price) {
         res.status(400).json({ error: "Missing data. A product needs id, name, and price"})
     }
+    const newProduct = {id, name, price};
+    product.push(newProduct);
+    res.status(201).json(newProduct);
 })
 
 app.get("/products/:id", (req, res) => {
