@@ -28,13 +28,13 @@ let products = [
 app.post('/products', (req, res) => {
     const {id, name, price} = req.body;
     if (products.some(product => product.id === id)) {
-        res.status(400).json({ error: "A product with the same id already exists!"});
+        return res.status(400).json({ error: "A product with the same id already exists!"});
     }
     if (!id || !name || !price) {
-        res.status(400).json({ error: "Missing data. A product needs id, name, and price"})
+        return res.status(400).json({ error: "Missing data. A product needs id, name, and price"})
     }
     const newProduct = {id, name, price};
-    product.push(newProduct);
+    products.push(newProduct);
     res.status(201).json(newProduct);
 })
 
