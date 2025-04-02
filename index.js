@@ -7,7 +7,7 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.status(200).json({
-        message: "Welcome! To see a product's info, use the route /products/:id"
+        message: "Welcome! To see a product's info, use the route /products/:id. To see all products, use the route /products. To create a new product use the route /products"
     });
 });
 
@@ -28,7 +28,6 @@ let products = [
         name: "laptop",
         price: 4000000
     }
-
 ];
 
 app.post('/products', (req, res) => {
